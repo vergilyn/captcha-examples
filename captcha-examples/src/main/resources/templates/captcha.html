@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>VergiLyn: captcha examples</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" th:src="@{/common/jquery-2.1.4.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap3/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap3/css/bootstrap.css}"/>
+</head>
+<body>
+    <form class="captcha_image">
+        <h2>传统的图片验证码：</h2>
+        <img src="/captcha/image.html"/>
+        <input type="text" id="captcha_image_code" class="form-control" style="width: 200px;display: inline" placeholder="请输入验证码" required="required" autofocus="autofocus"/>
+        <input type="button" onclick="javascript:validCaptchaImage();" class="btn btn-primary" style="width: 50px" value="校验"/>
+    </form>
+
+
+</body>
+<script type="text/javascript">
+
+    /*<![CDATA[*/
+    $(".captcha_image").on("click", "img", function () {
+        $(".captcha_image img").attr("src", "/captcha/image.html?v=" + new Date().getTime());
+    });
+
+    function validCaptchaImage() {
+        var url = "/captcha/image/valid.html";
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: {"code": $("#captcha_image_code").val() },
+            success: function (r) {
+                alert(r);
+            },
+            error: function (err) {
+                alert('error!');
+            }
+        });
+    }
+
+    /*]]>*/
+</script>
+
+</html>
